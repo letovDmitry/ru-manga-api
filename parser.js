@@ -22,16 +22,14 @@ const Parser = {
 
         let cover = await getMangaCover(chapters).then(i => i)
 
-        
-
         const manga = {
             title: $('span.name').text(),
+            genres: $('.elem_genre').text(),
+            author: $($('a.person-link').toArray()[0]).text(),
             cover,
             description: $($('.manga-description').toArray()[0]).text(),
             chapters: chapters
         }
-
-        
 
         return manga
     },
@@ -48,8 +46,13 @@ const Parser = {
 
         const chapters = links.map(i => {return { number: i.match(/[/][\s\S]*$/)[0].slice(1).replace('vol', '').replace('/', ' - '), link: `https://readmanga.io//${i}` }})
 
+        let cover = await getMangaCover(chapters).then(i => i)
+
         const manga = {
-            title: '',
+            title: $('span.name').text(),
+            genres: $('.elem_genre').text(),
+            author: $('a.person-link').text(),
+            cover,
             description: $($('.manga-description').toArray()[0]).text(),
             chapters: chapters
         }
